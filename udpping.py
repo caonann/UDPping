@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import print_function
 
@@ -10,11 +10,13 @@ import random
 import signal
 import sys
 import os
+import logging
 
 INTERVAL = 1000  #unit ms
 LEN =64
 IP=""
 PORT=0
+LOG_NAME='udping.log'
 
 count=0
 count_of_received=0
@@ -44,11 +46,13 @@ if len(sys.argv) != 3 and len(sys.argv)!=4 :
 	print(""" options:""")
 	print("""   LEN         the length of payload, unit:byte""")
 	print("""   INTERVAL    the seconds waited between sending each packet, as well as the timeout for reply packet, unit: ms""")
+	print("""   LOG_NAME    output log name""")
+
 
 	print()
 	print(" examples:")
 	print("   ./udpping.py 44.55.66.77 4000")
-	print('   ./udpping.py 44.55.66.77 4000 "LEN=400;INTERVAL=2000"')
+	print('   ./udpping.py 44.55.66.77 4000 "LEN=400;INTERVAL=2000;LOG_NAME=\'udping.log\'"')
 	print("   ./udpping.py fe80::5400:ff:aabb:ccdd 4000")
 	print()
 
@@ -72,6 +76,8 @@ if INTERVAL<50:
 	print("INTERVAL must be >=50")
 	exit()
 
+logging.basicConfig(format='%(asctime)s,%(message)s',filename=LOG_NAME,level=logging.DEBUG)
+
 signal.signal(signal.SIGINT, signal_handler)
 
 if not is_ipv6:
@@ -85,6 +91,7 @@ sys.stdout.flush()
 while True:
 	payload= random_string(LEN)
 	sock.sendto(payload.encode(), (IP, PORT))
+	logging.info(f"sendstr,{payload}")
 	time_of_send=time.time()
 	deadline = time.time() + INTERVAL/1000.0
 	received=0
@@ -101,6 +108,7 @@ while True:
 			if recv_data== payload.encode()  and addr[0]==IP and addr[1]==PORT:
 				rtt=((time.time()-time_of_send)*1000)
 				print("Reply from",IP,"seq=%d"%count, "time=%.2f"%(rtt),"ms")
+				logging.info(f",{IP},{count},{rtt:.2f}")
 				sys.stdout.flush()
 				received=1
 				break

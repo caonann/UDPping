@@ -25,7 +25,7 @@ rtt min/avg/max = 128.06/138.44/143.44 ms
 
 ### Step 1
 
-Set up a udp echo server at the host you want to ping. 
+Set up a udp echo server at the host you want to ping.
 
 There are many ways of doing this, my favourite way is:
 
@@ -33,7 +33,13 @@ There are many ways of doing this, my favourite way is:
 socat -v UDP-LISTEN:4000,fork PIPE
 ```
 
-Now a echo server is listening at port 4000. 
+or
+
+```
+./echo_server.sh 2 >> serveroutput.log 2>&1
+```
+
+Now a echo server is listening at port 4000.
 
 ###### Note
 If you dont have socat, use `apt install socat` or `yum install socat`, you will get it.
@@ -57,7 +63,7 @@ Now UDPping will generate outputs as a normal ping, but the protocol used is `UD
 root@raspberrypi:~# ./udpping.py
  usage:
    this_program <dest_ip> <dest_port>
-   this_program <dest_ip> <dest_port> "<options>" 
+   this_program <dest_ip> <dest_port> "<options>"
 
  options:
    LEN         the length of payload, unit:byte
@@ -67,5 +73,5 @@ root@raspberrypi:~# ./udpping.py
    ./udpping.py 44.55.66.77 4000
    ./udpping.py 44.55.66.77 4000 "LEN=400;INTERVAL=2000"
    ./udpping.py fe80::5400:ff:aabb:ccdd 4000
-   
+
 ```
