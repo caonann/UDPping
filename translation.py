@@ -14,14 +14,12 @@ def string2timestamp(strValue):
     except ValueError as e:
        print(f"ERROR {str(e)}")
 
-print(string2timestamp('2020-05-15 15:57:21,467'))
-
 filename=sys.argv[1]
 r = csv.reader(open(f'{filename}')) # Here your csv file
 lines=[]
 for line in r:
-    datetime = f"{line[0]},{line[1]}"
-    timestamp_mic = string2timestamp(datetime)
+    datetime_str = f"{line[0]},{line[1]}"
+    timestamp_mic = string2timestamp(datetime_str)
     lines.append([timestamp_mic,line[2],line[3],line[4]])
 
 writer = csv.writer(open(f'{filename}_statics.csv', 'w'))
