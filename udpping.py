@@ -91,7 +91,7 @@ sys.stdout.flush()
 while True:
 	payload= random_string(LEN)
 	sock.sendto(payload.encode(), (IP, PORT))
-	logging.info(f"sendstr,{payload}")
+	logging.info(f"sendstr,{count},{payload}")
 	time_of_send=time.time()
 	deadline = time.time() + INTERVAL/1000.0
 	received=0
@@ -108,7 +108,7 @@ while True:
 			if recv_data== payload.encode()  and addr[0]==IP and addr[1]==PORT:
 				rtt=((time.time()-time_of_send)*1000)
 				print("Reply from",IP,"seq=%d"%count, "time=%.2f"%(rtt),"ms")
-				logging.info(f",{IP},{count},{rtt:.2f}")
+				logging.info(f"{IP},{count},{rtt:.2f}")
 				sys.stdout.flush()
 				received=1
 				break
