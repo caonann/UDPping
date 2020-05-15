@@ -18,9 +18,8 @@ filename=sys.argv[1]
 r = csv.reader(open(f'{filename}')) # Here your csv file
 lines=[]
 for line in r:
-    datetime_str = f"{line[0]},{line[1]}"
-    timestamp_mic = string2timestamp(datetime_str)
-    lines.append([timestamp_mic,line[2],line[3],line[4]])
+    datetime_str = f"{line[0]}.{line[1]}"
+    lines.append([datetime_str,line[2],line[3],line[4]])
 
 writer = csv.writer(open(f'{filename}_statics.csv', 'w'))
 writer.writerows(lines)
