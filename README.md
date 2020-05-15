@@ -73,5 +73,5 @@ root@raspberrypi:~# ./udpping.py
    ./udpping.py 44.55.66.77 4000
    ./udpping.py 44.55.66.77 4000 "LEN=400;INTERVAL=2000"
    ./udpping.py fe80::5400:ff:aabb:ccdd 4000
-
+   nohup ./udpping.py  183.60.185.113 4000 LEN=400;INTERVAL=200;LOG_NAME='udping.log' 2>&1 &
 ```
